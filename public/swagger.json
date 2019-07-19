@@ -4,7 +4,294 @@
 		"version": "0.0.0",
 		"title": "Simple API"
 	},
+	"tags": [
+		{
+			"name": "partners",
+			"description": "商家"
+		}
+	],
+	"parameters": {
+		"partnerId": {
+			"in": "path",
+			"required": true,
+			"name": "partnerId",
+			"type": "string",
+			"description": "SDP商家編號(商家Id)"
+		  },
+		"deviceSerialNo": {
+			"in": "query",
+			"required": true,
+			"name": "deviceSerialNo",
+			"type": "string",
+			"description": "裝置序號",
+			"example": "S/N00000"
+		  },
+		"voucherCode": {
+			"in": "query",
+			"required": true,
+			"name": "voucherCode",
+			"type": "string",
+			"description": "兌換券號碼"
+		},
+		"provider": {
+			"in": "query",
+			"required": true,
+			"name": "provider",
+			"type": "string",
+			"description": "兌換券可選的服務供應商，查詢使用者裝置的贈送權益領取狀態 API 返回的 provider"
+		}
+	},
+	"definitions": {
+		"exampleDefinition":{
+			"type":"object",
+			"description":"Request details for Example Definition",
+			"properties":{
+			   "deviceSerialNo":{
+				  "type":"string",
+				  "description":"Specifies the action to be taken",
+				  "example":"8203X8A220037"
+			   },
+			   "voucherCode":{
+				  "type":"string",
+				  "description":"A boolean value that defines the behaviour of the request against the base",
+				  "example":"4W2sGt8zpE-08"
+			   },
+			   "provider":{
+				  "type":"string",
+				  "description":"The identifiers for the add-ons",
+				  "example":"music-kkbox"
+			   }
+			},
+			"required":[
+			   "deviceSerialNo",
+			   "voucherCode",
+			   "provider"
+			]
+		 },
+		"ProductList": {
+			"type": "array",
+			"items": {
+			  "$ref": "#/definitions/Product"
+			}
+		},
+		"Product": {
+			"type": "object",
+			"properties": {
+			  "sdpProductId": {
+				"type": "string",
+				"description": "SDP商品編號"
+			  },
+			  "iapProductId": {
+				"type": "string",
+				"description": "IAP產品 ID"
+			  },
+			  "productName": {
+				"type": "string",
+				"description": "商品名稱"
+			  },
+			  "duration": {
+				"type": "object",
+				"description": "商品效期",
+				"$ref": "#/definitions/Duration"
+			  },
+			  "price": {
+				"type": "number",
+				"description": "價格"
+			  },
+			  "channel": {
+				"type": "string",
+				"description": "商品販售平台"
+			  }
+			}
+		},
+		"Duration": {
+			"type": "object",
+			"properties": {
+			  "days": {
+				"type": "integer",
+				"description": "天數"
+			  }
+			}
+		},
+		"Error": {
+			"type": "object",
+			"properties": {
+			  "errCode": {
+				"type": "string"
+			  },
+			  "errMsg": {
+				"type": "string"
+			  },
+			  "errDetail": {
+				"type": "string"
+			  }
+			},
+			"required": [
+			  "errCode",
+			  "errMsg",
+			  "errDetail"
+			]
+		}
+	},
+	"responses": {
+		"InvalidRequestError": {
+			"description": "The request data is invalid",
+			"schema": {
+			  "$ref": "#/definitions/Error"
+			},
+			"examples": {
+			  "application/json": {
+				"errCode": "101",
+				"errMsg": "Invalid Request",
+				"errDetail": ""
+			  }
+			}
+		  },
+		  "InternalServerError": {
+			"description": "An error occurs in internal server",
+			"schema": {
+			  "$ref": "#/definitions/Error"
+			},
+			"examples": {
+			  "application/json": {
+				"errCode": "102",
+				"errMsg": "Internal Server Error",
+				"errDetail": ""
+			  }
+			}
+		}
+	},
 	"paths": {
+		"/hello": {
+			"get": {
+				"produces": [
+					"application/json"
+				],
+				"tags": [
+					"heelo"
+				],
+				"summary": "hello測試",
+				"responses": {
+					"default": {
+					  "description": "Success"
+					  }
+					},
+					"x-101": {
+					  "$ref": "#/responses/InvalidRequestError"
+					},
+					"x-102": {
+					  "$ref": "#/responses/InternalServerError"
+					}
+				}
+			},
+			"/api/am/v3/users/vouchers": {
+				"get": {
+					"produces": [
+						"application/json"
+					],
+					"tags": [
+						"vouchers"
+					],
+					"summary": "查詢使用者裝置贈送的音樂權益領取狀態(V3)",
+					"responses": {
+						"default": {
+						  "description": "Success",
+						  "examples": {
+							"application/json": {
+							  "errCode": "00"
+							}
+						  }
+						},
+						"x-101": {
+						  "$ref": "#/responses/InvalidRequestError"
+						},
+						"x-102": {
+						  "$ref": "#/responses/InternalServerError"
+						}
+					}
+				}
+			},
+		    "--comment/api/om/v1/partners/PARTNER0002/products?channel=web": {},
+			"/api/am/v1/users/redeem-voucher": {
+			"post": {
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name":"body",
+						"in":"body",
+						"description":"The body of the request",
+						"required":true,
+						"schemaaaaaa":{
+							"$ref":"#/definitions/exampleDefinition"
+						},
+						"schemabbbbbbb": {
+							"properties": {
+								"sources": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/exampleDefinition"
+									}
+								},
+								"destinationdId": {
+									"type": "integer"
+								}
+							}
+						},
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/exampleDefinition"
+							}
+						}
+					}
+				],
+				"parametersaaa": [
+					{
+					  "$ref": "#/parameters/deviceSerialNo"
+					},
+					{
+						"$ref": "#/parameters/voucherCode"
+					},
+					{
+						"$ref": "#/parameters/provider"
+					}
+				],
+				"tags": [
+					"vouchers"
+				],
+				"summary": "領取裝置贈送的音樂權益 v2 kkbox 4個月",
+				"responses": {
+					"default": {
+					  "description": "Success",
+					  "examples": {
+						"application/json": {
+							"errCode": "00",
+						}
+					  }
+					},
+					"x-101": {
+					  "$ref": "#/responses/InvalidRequestError"
+					},
+					"x-102": {
+					  "$ref": "#/responses/InternalServerError"
+					}
+				}
+			}
+    },
+		"/api/tgs/v1/user/fetnix.1234567890123456": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"00": {
+						"description": "OK"
+					}
+				}
+			}
+    },
 		"/": {
 			"get": {
 				"responses": {
@@ -25,6 +312,29 @@
 		},
 		"/api/v1/user/validateRedeemBuy": {
 			"post": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+    	},
+		"/api/tgs/v1/oauth/authorize": {
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"userId": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "OK"

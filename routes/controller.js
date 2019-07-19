@@ -20,11 +20,11 @@ router.post('/validateRedeemBuy', async function(req, res, next) {
 
   try {
     //validate UM token
-    let tokenInfo = await umClient.validateToken(req.headers['token']);
-    mLogger.info('%s validateToken result: %j', req.headers['token'], tokenInfo);
+    // let tokenInfo = await umClient.validateToken(req.headers['token']);
+    // mLogger.info('%s validateToken result: %j', req.headers['token'], tokenInfo);
     
     let kkboxResult = await mUserService.validateRedeemBuy(req.body.productId, req.body.accessToken);
-    
+    mLogger.info('kkboxResult');
   } catch (err) {
     mLogger.error(`catch err: ${err}`);
     return res.json(response.internalServerError(err.message));

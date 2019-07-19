@@ -1,0 +1,228 @@
+{
+	"swagger": "2.0",
+	"host": "localhost:8889",
+	"info": {
+		"version": "0.0.0",
+		"title": "Simple API"
+	},
+	"tags": [
+		{
+			"name": "partners",
+			"description": "商家"
+		}
+	],
+	"parameters": {
+		"partnerId": {
+			"in": "path",
+			"required": true,
+			"name": "partnerId",
+			"type": "string",
+			"description": "SDP商家編號(商家Id)"
+		  }
+	},
+	"definitions": {
+		"ProductList": {
+			"type": "array",
+			"items": {
+			  "$ref": "#/definitions/Product"
+			}
+		},
+		"Product": {
+			"type": "object",
+			"properties": {
+			  "sdpProductId": {
+				"type": "string",
+				"description": "SDP商品編號"
+			  },
+			  "iapProductId": {
+				"type": "string",
+				"description": "IAP產品 ID"
+			  },
+			  "productName": {
+				"type": "string",
+				"description": "商品名稱"
+			  },
+			  "duration": {
+				"type": "object",
+				"description": "商品效期",
+				"$ref": "#/definitions/Duration"
+			  },
+			  "price": {
+				"type": "number",
+				"description": "價格"
+			  },
+			  "channel": {
+				"type": "string",
+				"description": "商品販售平台"
+			  }
+			}
+		},
+		"Duration": {
+			"type": "object",
+			"properties": {
+			  "days": {
+				"type": "integer",
+				"description": "天數"
+			  }
+			}
+		},
+		"Error": {
+			"type": "object",
+			"properties": {
+			  "errCode": {
+				"type": "string"
+			  },
+			  "errMsg": {
+				"type": "string"
+			  },
+			  "errDetail": {
+				"type": "string"
+			  }
+			},
+			"required": [
+			  "errCode",
+			  "errMsg",
+			  "errDetail"
+			]
+		}
+	},
+	"responses": {
+		"InvalidRequestError": {
+			"description": "The request data is invalid",
+			"schema": {
+			  "$ref": "#/definitions/Error"
+			},
+			"examples": {
+			  "application/json": {
+				"errCode": "101",
+				"errMsg": "Invalid Request",
+				"errDetail": ""
+			  }
+			}
+		  },
+		  "InternalServerError": {
+			"description": "An error occurs in internal server",
+			"schema": {
+			  "$ref": "#/definitions/Error"
+			},
+			"examples": {
+			  "application/json": {
+				"errCode": "102",
+				"errMsg": "Internal Server Error",
+				"errDetail": ""
+			  }
+			}
+		}
+	},
+	"paths": {
+		    "--comment/api/om/v1/partners/PARTNER0002/products?channel=web": {},
+			"/api/om/v1/partners/{partnerId}/products?channel=web": {
+			"get": {
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+					  "$ref": "#/parameters/partnerId"
+					}
+				  ],
+				"tags": [
+					"partners"
+				],
+				"summary": "查詢商家於WEB販售的服務清單",
+				"responses": {
+					"default": {
+					  "description": "Success",
+					  "examples": {
+						"application/json": {
+							"errCode": "00",
+							"errMsg": "",
+							"errDetail": "",
+							"productList": [
+							  {
+								"sdpProductId": "FMVC0001",
+								"iapProductId": null,
+								"productName": "Friday音樂歡樂包(測試)",
+								"duration": {
+								  "days": 365
+								},
+								"price": 0,
+								"channel": "WEB"
+							  }
+							]
+						}
+					  }
+					},
+					"x-101": {
+					  "$ref": "#/responses/InvalidRequestError"
+					},
+					"x-102": {
+					  "$ref": "#/responses/InternalServerError"
+					}
+				}
+			}
+    },
+		"/api/tgs/v1/user/fetnix.1234567890123456": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"00": {
+						"description": "OK"
+					}
+				}
+			}
+    },
+		"/": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+    },
+    	"/users": {
+			"get": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/v1/user/validateRedeemBuy": {
+			"post": {
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+    	},
+		"/api/tgs/v1/oauth/authorize": {
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"userId": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+    	}
+	}
+}

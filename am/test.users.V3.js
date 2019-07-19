@@ -3,7 +3,7 @@ console.log = mLogger.info.bind(mLogger);
 const Request = require('supertest')
 const Assert = require('assert');
 const mServer = require('../bin/www');
-const mAgent = Request('http://localhost:8889');
+const mAgent = Request('http://localhost:3000');
 const Response = require('../models/Response.js');
 const sequelize = require('../models/database/models').sequelize;
 const sinon = require('sinon');
@@ -270,123 +270,7 @@ describe('Test users', function () {
         redeemedDate: '2019-01-01 12:00:00'
     };
 
-    describe('Test token validation', function () {
-        var umClient;
-        before(function (done) {
-            umClient = require('../src/client/umClient');
-            sinon.stub(umClient, 'getUserInfoByToken').callsFake(function () {
-                return {error: 'invalid token'};
-            });
-            done();
-        });
 
-        after(function (done) {
-            umClient.getUserInfoByToken.restore();
-            done();
-        });
-
-        it('[1-1 Verify token] should response Invalid Token', function(done) {
-            var expect = new Response();
-            mAgent
-                .post('/api/am/v2/users/voucher')
-                .set('token', 'abcdefghijklmn')
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    mLogger.debug(res.text);
-                    Assert.equal(JSON.parse(res.status), 200);
-                    Assert.deepStrictEqual(res.text, JSON.stringify(expect.invalidToken()));
-                    done();
-                });
-        });
-    });
-
-    describe('Test token validation', function () {
-        var umClient;
-        before(function (done) {
-            umClient = require('../src/client/umClient');
-            sinon.stub(umClient, 'getUserInfoByToken').callsFake(function () {
-                return {error: 'invalid token'};
-            });
-            done();
-        });
-
-        after(function (done) {
-            umClient.getUserInfoByToken.restore();
-            done();
-        });
-
-        it('[1-2 Verify token] should response Invalid Token', function(done) {
-            var expect = new Response();
-            mAgent
-                .post('/api/am/v2/users/voucher')
-                .set('token', '')
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    mLogger.debug(res.text);
-                    Assert.equal(JSON.parse(res.status), 200);
-                    Assert.deepStrictEqual(res.text, JSON.stringify(expect.invalidRequest()));
-                    done();
-                });
-        });
-    });
-
-    describe('Test token validation', function () {
-        var umClient;
-        before(function (done) {
-            umClient = require('../src/client/umClient');
-            sinon.stub(umClient, 'getUserInfoByToken').callsFake(function () {
-                return {error: 'invalid token'};
-            });
-            done();
-        });
-
-        after(function (done) {
-            umClient.getUserInfoByToken.restore();
-            done();
-        });
-
-        it('[1-3 Verify token] should response Invalid Token', function(done) {
-            var expect = new Response();
-            mAgent
-                .post('/api/am/v2/users/voucher')
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    mLogger.debug(res.text);
-                    Assert.equal(JSON.parse(res.status), 200);
-                    Assert.deepStrictEqual(res.text, JSON.stringify(expect.invalidRequest()));
-                    done();
-                });
-        });
-    });
-    describe('Test cipher validation', function () {
-        var umClient;
-        it('[1-4 Verify cipher] should response Invalid cipher', function(done) {
-            var expect = new Response();
-            mAgent
-                .post('/api/am/v2/users/voucher')
-                .set('cipher', '')
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    mLogger.debug(res.text);
-                    Assert.equal(JSON.parse(res.status), 200);
-                    Assert.deepStrictEqual(res.text, JSON.stringify(expect.invalidRequest()));
-                    done();
-                });
-        });
-        it('[1-5 Verify cipher] should response Invalid cipher', function(done) {
-            var expect = new Response();
-            mAgent
-                .post('/api/am/v2/users/voucher')
-                .set('cipher', 'abcd1234')
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    mLogger.debug(res.text);
-                    Assert.equal(JSON.parse(res.status), 200);
-                    Assert.deepStrictEqual(res.text, JSON.stringify(expect.invalidRequest()));
-                    done();
-                });
-        });
-    });
     
 
 

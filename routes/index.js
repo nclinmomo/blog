@@ -19,13 +19,14 @@ router.get('/', function(req, res, next) {
   //     type: Sequelize.INTEGER
   //   }
   // })
-  goods.findOne({
-    where: {
-      GOODS_CODE: '2'
-    }
-  })
-    .then(goods => console.log(goods))
-    .catch(err => console.log(err));
+
+  // goods.findOne({
+  //   where: {
+  //     GOODS_CODE: '2'
+  //   }
+  // })
+  //   .then(goods => console.log(goods))
+  //   .catch(err => console.log(err));
     
   res.render('index', { title: 'Express' });
 });

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const OPTIONS = require('./mysql_config');
-const mSequelize = new Sequelize('my_db', 'root' , '12345', OPTIONS);
+const mSequelize = new Sequelize('activation_management', 'iamactmanagement' , 'Workeractm168', OPTIONS);
     mSequelize
     .authenticate()
     .then(() => {
@@ -9,6 +9,7 @@ const mSequelize = new Sequelize('my_db', 'root' , '12345', OPTIONS);
     })
     .catch(err => {
         // mLogger.error('Unable to connect to the database:', err);
+        console.log('test111');
     });
 
 module.exports = mSequelize;
