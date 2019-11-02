@@ -20,7 +20,7 @@
     "moment-timezone": "^0.5.25",
     "morgan": "~1.9.1",
     "mysql2": "^1.6.5",
-    "sequelize": "^5.8.9",
+    "sequelize": "^5.15.1",
     "stream-transform": "^1.0.2",
     "tcomb-validation": "^3.4.1"
   },
