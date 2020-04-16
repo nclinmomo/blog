@@ -14,7 +14,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.3",
     "log4js": "^4.3.1",
     "log4js-extend": "^0.2.1",
     "moment-timezone": "^0.5.25",
