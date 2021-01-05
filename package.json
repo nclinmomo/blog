@@ -7,7 +7,7 @@
     "test": "node node_modules/nyc/bin/nyc.js --reporter=text-summary node_modules/mocha/bin/mocha ./tests/"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "cookie-parser": "~1.4.4",
     "csv-parse": "^2.0.4",
     "debug": "~2.6.9",
